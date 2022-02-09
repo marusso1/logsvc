@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "ef9e309e-dc90-40f9-9ba3-50cf1bce62fb",
+		"name": "logsvc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostLogs",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"items\": [\n        {\"message\": \"2019-10-12T07:20:50.52Z INFO api - From 2019: This is an INFO level log message!\"},\n        {\"message\": \"2019-10-12T07:20:50.52Z ERROR runner - From 2019: This is an ERROR level log message!\"},\n        {\"message\": \"2021-10-12T07:20:50.52Z INFO api - From 2022: This is an INFO level log message!\"},\n        {\"message\": \"2021-10-12T07:20:50.52Z ERROR runner - From 2022: This is an ERROR level log message!\"}\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostSearch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"module\": \"api\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteSearch",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"module\": \"api\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAbout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logs/about",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"about"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,85 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.sevcosecurity'
+version = '1.0'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'co.elastic.clients:elasticsearch-java:7.17.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
+    implementation 'jakarta.json:jakarta.json-api:2.0.1'
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation 'org.json:json:20211205'
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def execCmd(String... p) {
+    println(String.join(" ", p))
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine p
+    }
+    println(stdout.toString())
+}
+
+task dockerBuild() {
+    dependsOn build
+    group = 'docker'
+    description = 'Builds the docker image'
+    doLast {
+        println("Executing dockerBuild...")
+        execCmd('docker', 'build',
+                '--build-arg', "VERSION=${project.version}",
+                '-t', "${project.name}:${project.version}",
+                '-t', "${project.name}:latest", '.'
+        )
+        println("dockerBuild complete")
+    }
+}
+
+task dockerRun() {
+    dependsOn dockerBuild
+    group = 'docker'
+    description = 'Runs the app in docker'
+    doLast {
+        println("Executing dockerRun...")
+        execCmd('docker-compose', 'up', '-d')
+        println("dockerRun complete")
+    }
+}
+
+task dockerStop() {
+    group = 'docker'
+    description = 'Stops the app in docker'
+    doLast {
+        println("Executing dockerStop...")
+        execCmd('docker-compose', 'stop')
+        println("dockerStop complete")
+    }
+}
